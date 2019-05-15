@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Push Notifications</title>
+    <style>
+        #feeds{
+            margin: 200px 100px 100px 100px;
+            padding: 20px 20px 10px 20px;
+        }
+        h2{
+            margin-bottom: 9px;
+            font-family: Arial, Helvetica, sans-serif;
+
+        }
+        h3{
+            color:rgb(3, 32, 32);
+        }
+        body{
+            background-image: url('wood.jpg');
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='feeds' class="w3-card-8 w3-white w3-round"></div>
+    <script src="https://js.pusher.com/4.0/pusher.min.js">
+    </script>
+    <script>
+        var pusher = new Pusher('931e65a8378bb81125c3', {
+            encrypted: true,
+            cluster: 'us2',
+            authTransport: 'jsonp',
+            authEndpoint: '/pusher_authentication'
+        });
+
+        var my_channel = pusher.subscribe('a_channel');
+        my_channel.bind("an_event", function (data) {
+            console.log(data)
+            var new_message = `<span>
+                    <h2>` + data.message + `</h2>
+                    <h3>` + data.user + `</h3>
+                    <h3>` + data.action + `</h3>
+                </span>`;
+            document.getElementById('feeds').innerHTML = new_message
+        });
+    </script>
+</body>
+
+</html>
